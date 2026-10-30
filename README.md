@@ -11,15 +11,15 @@
 
 `workflow` 只生成可交换的 JSON，不执行工作流，也不在插件进程中调度内置节点。结构校验不替代客户端 Catalog 校验、权限审批和发布。
 
-## 本地联调
+## 安装与联调
 
-当前为开发预览版本，尚未发布版本标签。本地开发时将 SDK 与 examples 放在同级目录；examples 的 `go.mod` 使用 `v0.0.0` + 相对 `replace`。发布版本后，可改用对应版本号并移除 `replace`。
+当前为开发预览版本，尚未发布稳定版本标签。可固定已公开的提交版本；examples 已固定依赖，不需要相邻 SDK 目录。
 
-```text
-workspace/
-├── anon-browser-sdk/
-└── anon-browser-examples/
+```bash
+go get github.com/browser-rpa/anon-browser-sdk@v0.0.0-20261030151347-bf8a97357247
 ```
+
+同时修改 SDK 和 examples 时，可用本地 `go.work` 联调，勿把机器相关的 `replace` 提交到项目中。
 
 ## 插件入口
 
