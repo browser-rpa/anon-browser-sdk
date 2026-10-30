@@ -1,0 +1,5 @@
+.DS_Store
+dist/
+coverage.out
+go.work
+go.work.sum
