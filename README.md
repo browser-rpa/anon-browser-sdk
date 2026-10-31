@@ -16,7 +16,7 @@
 当前为开发预览版本，尚未发布稳定版本标签。可固定已公开的提交版本；examples 已固定依赖，不需要相邻 SDK 目录。
 
 ```bash
-go get github.com/browser-rpa/anon-browser-sdk@v0.0.0-20261030151347-bf8a97357247
+go get github.com/browser-rpa/anon-browser-sdk@v0.0.0-20261031092102-173fd6da0745
 ```
 
 同时修改 SDK 和 examples 时，可用本地 `go.work` 联调，勿把机器相关的 `replace` 提交到项目中。
@@ -40,7 +40,7 @@ Server 每个进程只处理一次节点调用，写完结果即返回。stdout 
 
 `Client` 提供 ReadTitle/ReadURL/ReadText、Navigate/Click/TypeText/Evaluate、GetVariable/SetVariable、HTTPRequest、GetStorage/SetStorage、WriteTextArtifact。高级使用可通过 `Call` 请求已开放的能力，但不会扩展宿主权限。HTTP 响应 Header 为 `map[string][]string`，保留同名多值。
 
-本分支新增 `UploadFiles`、`WaitForResponse`、`BindPage`、`FillBoundPage`、`ClickBoundPage`、`WaitForBoundPageResponse`、`ReleasePage`。权限、结果核验和发布前联调方式见 [受控浏览器业务操作](docs/managed-browser.md)；这些接口尚不在上面的固定预览版本中。
+当前公开预览版本提供 `UploadFiles`、`WaitForResponse`、`BindPage`、`FillBoundPage`、`ClickBoundPage`、`WaitForBoundPageResponse`、`ReleasePage`。权限与结果核验见 [受控浏览器业务操作](docs/managed-browser.md)。
 
 ### 声明校验与权限
 
@@ -72,7 +72,7 @@ return json.NewEncoder(output).Encode(flow)
 
 已有便捷节点包括人工等待、会话绑定/保持、页面脚本注册/注销、外部指令领取/完成、外部回复请求、可靠 Webhook、响应监听、素材上传/下载和子流程调用。公共子流程统一定义在根图 `subflows` 中，使用 schema_version 3。
 
-本分支新增 `EnsureSession(id, EnsureSessionConfig{SessionKey: "main", CreateIfMissing: true})`：按项目内固定标识首次创建或复用浏览器。用 `Link` 连接 `created` / `reused` / `missing` / `busy` / `needs_review` / `closed`，不要用 `Then` 连接其出口。是否登录仍由页面或 Cookie 检测决定；关闭或断开的会话不会自动替换。该构建器同样尚不在上面的固定预览版本中。
+`EnsureSession(id, EnsureSessionConfig{SessionKey: "main", CreateIfMissing: true})` 按项目内固定标识首次创建或复用浏览器。用 `Link` 连接 `created` / `reused` / `missing` / `busy` / `needs_review` / `closed`，不要用 `Then` 连接其出口。是否登录仍由页面或 Cookie 检测决定；关闭或断开的会话不会自动替换。该构建器已包含在当前公开预览版本中。
 
 工作流 Builder 本身不赋予插件运行权限。文件上传、响应等待及页面绑定已有独立的受控 Client 接口；页面脚本/常驻会话/外部触发器仍通过工作流与公开管理 API 配置，插件不能凭 SDK 创建任意 Run 或取得浏览器控制地址。
 
