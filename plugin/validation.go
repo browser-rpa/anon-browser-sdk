@@ -91,9 +91,23 @@ func validateNode(n NodeDescriptor, allowed map[string]bool) error {
 			return fmt.Errorf("policy.required_permissions contains %q missing from manifest.permissions", permission)
 		}
 		seen[permission] = true
-		if (permission == PermissionNetworkFetch || permission == PermissionBrowserScript || permission == "network.modify") && m.SecurityLevel != "high_risk" {
+		if (permission == PermissionNetworkFetch || permission == PermissionBrowserScript || permission == PermissionBrowserPageManage || permission == "network.modify") && m.SecurityLevel != "high_risk" {
 			return fmt.Errorf("permission %q requires metadata.security_level high_risk", permission)
 		}
+	}
+	for _, permission := range []string{PermissionBrowserFileUpload, PermissionBrowserNetworkObserve, PermissionBrowserPageManage} {
+		if !seen[permission] {
+			continue
+		}
+		if m.Idempotency != "non_idempotent" || p.MaxAttempts > 1 {
+			return fmt.Errorf("permission %q requires non_idempotent and at most one attempt", permission)
+		}
+		if !p.Resources.ProfileLease || !p.Resources.Runtime {
+			return fmt.Errorf("permission %q requires profile_lease and runtime resources", permission)
+		}
+	}
+	if seen[PermissionBrowserFileUpload] && (!p.Resources.ActivePage || !p.Resources.ArtifactIO) {
+		return fmt.Errorf("file upload requires active_page and artifact_io resources")
 	}
 	if m.SecurityLevel == "safe" && len(seen) > 0 {
 		return fmt.Errorf("safe nodes cannot declare restricted permissions")

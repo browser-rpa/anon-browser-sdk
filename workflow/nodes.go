@@ -69,6 +69,21 @@ func BindSession(id string, session any) Spec {
 	}{session})
 }
 
+// EnsureSessionConfig selects a project-local stable session key. It does not
+// grant plugins session-management authority; the workflow owns this decision.
+type EnsureSessionConfig struct {
+	SessionKey      any    `json:"session_key"`
+	CreateIfMissing bool   `json:"create_if_missing"`
+	Name            string `json:"name,omitempty"`
+	OutputVariable  string `json:"output_variable,omitempty"`
+}
+
+// EnsureSession has created/reused/missing/busy/needs_review/closed ports, not
+// success. Use Link for all branches. Unavailable outcomes clear OutputVariable.
+func EnsureSession(id string, config EnsureSessionConfig) Spec {
+	return N(id, "browser.session_ensure", config)
+}
+
 type WaitCondition struct {
 	Kind     string `json:"kind"`
 	Selector string `json:"selector,omitempty"`

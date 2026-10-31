@@ -12,17 +12,20 @@ type Kind string
 const KindAutomation Kind = "automation"
 
 const (
-	PermissionBrowserRead     = "browser.read"
-	PermissionBrowserNavigate = "browser.navigate"
-	PermissionBrowserInteract = "browser.interact"
-	PermissionBrowserTabs     = "browser.tabs"
-	PermissionBrowserScript   = "browser.script"
-	PermissionStorageRead     = "storage.read"
-	PermissionStorageWrite    = "storage.write"
-	PermissionNetworkFetch    = "network.fetch"
-	PermissionVariablesRead   = "variables.read"
-	PermissionVariablesWrite  = "variables.write"
-	PermissionArtifactsWrite  = "run.artifacts.write"
+	PermissionBrowserRead           = "browser.read"
+	PermissionBrowserNavigate       = "browser.navigate"
+	PermissionBrowserInteract       = "browser.interact"
+	PermissionBrowserTabs           = "browser.tabs"
+	PermissionBrowserScript         = "browser.script"
+	PermissionBrowserFileUpload     = "browser.file_upload"
+	PermissionBrowserNetworkObserve = "browser.network.observe"
+	PermissionBrowserPageManage     = "browser.page.manage"
+	PermissionStorageRead           = "storage.read"
+	PermissionStorageWrite          = "storage.write"
+	PermissionNetworkFetch          = "network.fetch"
+	PermissionVariablesRead         = "variables.read"
+	PermissionVariablesWrite        = "variables.write"
+	PermissionArtifactsWrite        = "run.artifacts.write"
 )
 
 // Manifest is the public, JSON-serializable portion of an automation package.
